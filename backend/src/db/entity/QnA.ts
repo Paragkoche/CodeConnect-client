@@ -27,6 +27,7 @@ export class Question {
   solve: Answer[];
 
   @OneToOne(() => User)
+  @JoinColumn()
   createBy: User;
   @ManyToMany(() => Catalog)
   @JoinTable()

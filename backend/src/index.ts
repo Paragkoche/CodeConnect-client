@@ -1,5 +1,8 @@
 import Express from "express";
 import db from "@/db";
+import { config } from "dotenv";
+import v1Routes from "@/router";
+config();
 const app = Express();
 app.use(Express.json());
 
@@ -11,7 +14,7 @@ app.get("/", (req, res) => {
     message: "Api is running....",
   });
 });
-
+app.use("/api/v1", v1Routes);
 app.listen(8080, async () => {
   await db.initialize();
   console.log("server is Running on 8080");

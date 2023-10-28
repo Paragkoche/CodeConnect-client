@@ -1,5 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-
+import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { createPassword } from "@/util/password";
 @Entity()
 export class User {
   @PrimaryGeneratedColumn("uuid")
@@ -12,6 +12,13 @@ export class User {
   phone_number: string;
   @Column()
   password: string;
-  @Column()
+  @Column({ unique: true })
   email: string;
+  @Column()
+  role: "Teacher" | "Student";
+
+  @BeforeInsert()
+  async g(password: string) {
+    return await createPassword(this, password);
+  }
 }
