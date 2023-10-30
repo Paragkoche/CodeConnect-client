@@ -1,9 +1,11 @@
 import Express from "express";
 import db from "@/db";
 import { config } from "dotenv";
+import cors from "cors";
 import v1Routes from "@/router";
 config();
 const app = Express();
+app.use(cors());
 app.use(Express.json());
 
 app.get("/", (req, res) => {
