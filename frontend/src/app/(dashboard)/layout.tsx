@@ -1,25 +1,19 @@
-"use client"
+"use client";
 
-import { Inter } from 'next/font/google'
-import { Providers } from "@/reducers/provider"
-const inter = Inter({ subsets: ['latin'] })
-
-
-
+import { Inter } from "next/font/google";
+import { Providers } from "@/reducers/provider";
+import { ToastContainer } from "react-toastify";
+const inter = Inter({ subsets: ["latin"] });
 export default function RootLayout({
-    children,
+  children,
 }: {
-    children: React.ReactNode
+  children: React.ReactNode;
 }) {
-    return (
-        <html lang="en">
-            <body className={inter.className}>
-                <Providers>
-
-                    {children}
-                </Providers>
-
-            </body>
-        </html>
-    )
+  return (
+    <html lang="en">
+      <body className={inter.className}>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  );
 }

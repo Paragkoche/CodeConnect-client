@@ -1,43 +1,41 @@
-
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from "next/navigation";
 
 import {
-    ListSubheader,
-    alpha,
-    Box,
-    List,
-    styled,
-    Button,
-    ListItem
-} from '@mui/material';
-import NextLink from 'next/link';
+  ListSubheader,
+  alpha,
+  Box,
+  List,
+  styled,
+  Button,
+  ListItem,
+} from "@mui/material";
+import NextLink from "next/link";
 
-
-import DesignServicesTwoToneIcon from '@mui/icons-material/DesignServicesTwoTone';
-import BrightnessLowTwoToneIcon from '@mui/icons-material/BrightnessLowTwoTone';
-import MmsTwoToneIcon from '@mui/icons-material/MmsTwoTone';
-import TableChartTwoToneIcon from '@mui/icons-material/TableChartTwoTone';
-import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
-import BallotTwoToneIcon from '@mui/icons-material/BallotTwoTone';
-import BeachAccessTwoToneIcon from '@mui/icons-material/BeachAccessTwoTone';
-import EmojiEventsTwoToneIcon from '@mui/icons-material/EmojiEventsTwoTone';
-import FilterVintageTwoToneIcon from '@mui/icons-material/FilterVintageTwoTone';
-import HowToVoteTwoToneIcon from '@mui/icons-material/HowToVoteTwoTone';
-import LocalPharmacyTwoToneIcon from '@mui/icons-material/LocalPharmacyTwoTone';
-import RedeemTwoToneIcon from '@mui/icons-material/RedeemTwoTone';
-import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
-import TrafficTwoToneIcon from '@mui/icons-material/TrafficTwoTone';
-import CheckBoxTwoToneIcon from '@mui/icons-material/CheckBoxTwoTone';
-import ChromeReaderModeTwoToneIcon from '@mui/icons-material/ChromeReaderModeTwoTone';
-import WorkspacePremiumTwoToneIcon from '@mui/icons-material/WorkspacePremiumTwoTone';
-import CameraFrontTwoToneIcon from '@mui/icons-material/CameraFrontTwoTone';
-import DisplaySettingsTwoToneIcon from '@mui/icons-material/DisplaySettingsTwoTone';
-import { useAppDispatch, useAppSelector } from '@/reducers/hook';
-import { chengNav } from '@/reducers/slices/ui.reducer';
-import { FaCat, FaCheck, FaHome, FaQuestion } from 'react-icons/fa';
+import DesignServicesTwoToneIcon from "@mui/icons-material/DesignServicesTwoTone";
+import BrightnessLowTwoToneIcon from "@mui/icons-material/BrightnessLowTwoTone";
+import MmsTwoToneIcon from "@mui/icons-material/MmsTwoTone";
+import TableChartTwoToneIcon from "@mui/icons-material/TableChartTwoTone";
+import AccountCircleTwoToneIcon from "@mui/icons-material/AccountCircleTwoTone";
+import BallotTwoToneIcon from "@mui/icons-material/BallotTwoTone";
+import BeachAccessTwoToneIcon from "@mui/icons-material/BeachAccessTwoTone";
+import EmojiEventsTwoToneIcon from "@mui/icons-material/EmojiEventsTwoTone";
+import FilterVintageTwoToneIcon from "@mui/icons-material/FilterVintageTwoTone";
+import HowToVoteTwoToneIcon from "@mui/icons-material/HowToVoteTwoTone";
+import LocalPharmacyTwoToneIcon from "@mui/icons-material/LocalPharmacyTwoTone";
+import RedeemTwoToneIcon from "@mui/icons-material/RedeemTwoTone";
+import SettingsTwoToneIcon from "@mui/icons-material/SettingsTwoTone";
+import TrafficTwoToneIcon from "@mui/icons-material/TrafficTwoTone";
+import CheckBoxTwoToneIcon from "@mui/icons-material/CheckBoxTwoTone";
+import ChromeReaderModeTwoToneIcon from "@mui/icons-material/ChromeReaderModeTwoTone";
+import WorkspacePremiumTwoToneIcon from "@mui/icons-material/WorkspacePremiumTwoTone";
+import CameraFrontTwoToneIcon from "@mui/icons-material/CameraFrontTwoTone";
+import DisplaySettingsTwoToneIcon from "@mui/icons-material/DisplaySettingsTwoTone";
+import { useAppDispatch, useAppSelector } from "@/reducers/hook";
+import { chengNav } from "@/reducers/slices/ui.reducer";
+import { FaCat, FaCheck, FaHome, FaQuestion } from "react-icons/fa";
 
 const MenuWrapper = styled(Box)(
-    ({ theme }) => `
+  ({ theme }) => `
   .MuiList-root {
     padding: ${theme.spacing(1)};
 
@@ -58,7 +56,7 @@ const MenuWrapper = styled(Box)(
 );
 
 const SubMenuWrapper = styled(Box)(
-    ({ theme }) => `
+  ({ theme }) => `
     .MuiList-root {
 
       .MuiListItem-root {
@@ -87,7 +85,7 @@ const SubMenuWrapper = styled(Box)(
 
           .MuiButton-startIcon,
           .MuiButton-endIcon {
-            transition: ${theme.transitions.create(['color'])};
+            transition: ${theme.transitions.create(["color"])};
 
             .MuiSvgIcon-root {
               font-size: inherit;
@@ -151,9 +149,9 @@ const SubMenuWrapper = styled(Box)(
                 background: ${theme.colors.alpha.trueWhite[100]};
                 opacity: 0;
                 transition: ${theme.transitions.create([
-        'transform',
-        'opacity'
-    ])};
+                  "transform",
+                  "opacity",
+                ])};
                 width: 6px;
                 height: 6px;
                 transform: scale(0);
@@ -179,78 +177,86 @@ const SubMenuWrapper = styled(Box)(
 );
 
 function SidebarMenu() {
-    const dispatch = useAppDispatch()
-    const open = useAppSelector(state => state.uiReducer.value.navbar)
-    const closeSidebar = () => dispatch(chengNav())
-    const router = usePathname();
-    const currentRoute = router;
-
-    return (
-        <>
-            <MenuWrapper>
-                <List component="div">
-                    <SubMenuWrapper>
-                        <List component="div">
-                            <ListItem component="div">
-
-                                <Button
-                                    className={currentRoute === '/dash-board/Teacher' ? 'active' : ''}
-                                    disableRipple
-
-
-                                    startIcon={<FaHome />}
-                                >
-                                    HOME
-                                </Button>
-
-                            </ListItem>
-                            <ListItem component="div">
-
-                                <Button
-                                    className={currentRoute === '/dash-board/Teacher/questions' ? 'active' : ''}
-                                    disableRipple
-
-
-                                    startIcon={<FaQuestion />}
-                                >
-                                    Questions
-                                </Button>
-
-                            </ListItem>
-                            <ListItem component="div">
-
-                                <Button
-                                    className={currentRoute === '/dash-board/Teacher/category' ? 'active' : ''}
-                                    disableRipple
-
-
-                                    startIcon={<FaCat />}
-                                >
-                                    Category
-                                </Button>
-
-                            </ListItem>
-                            <ListItem component="div">
-
-                                <Button
-                                    className={currentRoute === '/dash-board/Teacher/answers' ? 'active' : ''}
-                                    disableRipple
-
-
-                                    startIcon={<FaCheck />}
-                                >
-                                    Answers
-                                </Button>
-
-                            </ListItem>
-                        </List>
-
-                    </SubMenuWrapper>
-                </List>
-
-            </MenuWrapper>
-        </>
-    );
+  const dispatch = useAppDispatch();
+  const open = useAppSelector((state) => state.uiReducer.value.navbar);
+  const closeSidebar = () => dispatch(chengNav());
+  const router = usePathname();
+  const currentRoute = router;
+  const _route = useRouter();
+  return (
+    <>
+      <MenuWrapper>
+        <List component="div">
+          <SubMenuWrapper>
+            <List component="div">
+              <ListItem component="div">
+                <Button
+                  className={
+                    currentRoute === "/dash-board/Teacher" ? "active" : ""
+                  }
+                  disableRipple
+                  onClick={() => {
+                    _route.push("/dash-board/Teacher");
+                  }}
+                  startIcon={<FaHome />}
+                >
+                  HOME
+                </Button>
+              </ListItem>
+              <ListItem component="div">
+                <Button
+                  className={
+                    currentRoute === "/dash-board/Teacher/questions"
+                      ? "active"
+                      : ""
+                  }
+                  disableRipple
+                  onClick={() => {
+                    _route.push("/dash-board/Teacher/questions");
+                  }}
+                  startIcon={<FaQuestion />}
+                >
+                  Questions
+                </Button>
+              </ListItem>
+              <ListItem component="div">
+                <Button
+                  className={
+                    currentRoute === "/dash-board/Teacher/category"
+                      ? "active"
+                      : ""
+                  }
+                  disableRipple
+                  onClick={() => {
+                    _route.push("/dash-board/Teacher/category");
+                  }}
+                  startIcon={<FaCat />}
+                >
+                  Category
+                </Button>
+              </ListItem>
+              <ListItem component="div">
+                <Button
+                  className={
+                    currentRoute === "/dash-board/Teacher/answers"
+                      ? "active"
+                      : ""
+                  }
+                  disableRipple
+                  onClick={() => {
+                    _route.push("/dash-board/Teacher/answers");
+                  }}
+                  startIcon={<FaCheck />}
+                >
+                  Answers
+                </Button>
+              </ListItem>
+            </List>
+          </SubMenuWrapper>
+        </List>
+      </MenuWrapper>
+    </>
+  );
 }
 
 export default SidebarMenu;

@@ -37,7 +37,7 @@ route.post("/login", async (req, res) => {
       status: 200,
       message: "successful login",
       data: {
-        toke: create_Token({ id: data.id, role: data.role }),
+        token: create_Token({ id: data.id, role: data.role }),
         ...{ ...data, password: undefined },
       },
     });
@@ -86,7 +86,7 @@ route.post("/sign-in", async (req, res) => {
         status: 200,
         message: "successful Register",
         data: {
-          toke: create_Token({ id: data.id, role: data.role }),
+          token: create_Token({ id: data.id, role: data.role }),
           ...{ ...data, password: undefined },
         },
       });

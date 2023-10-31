@@ -8,14 +8,15 @@ const route = Router();
  * todo (update,crate,delete) question
  */
 
-route.get("/get/questions", TeacherObject, (req: TeacherReq, res) => {
+route.get("/get/questions", TeacherObject, async (req: TeacherReq, res) => {
   try {
-    const data = QuestionRepo.find({
+    const data = await QuestionRepo.find({
       where: {
         createBy: {
           id: req.teacherObject.id,
         },
       },
+      relations: ["solve", "catalog"],
     });
     return res.json({ data });
   } catch (e) {
@@ -24,9 +25,9 @@ route.get("/get/questions", TeacherObject, (req: TeacherReq, res) => {
     });
   }
 });
-route.get("/get/catalog", TeacherObject, (req: TeacherReq, res) => {
+route.get("/get/catalog", TeacherObject, async (req: TeacherReq, res) => {
   try {
-    const data = CatalogRepo.find();
+    const data = await CatalogRepo.find();
     return res.json({ data });
   } catch (e) {
     return res.status(500).json({
@@ -35,9 +36,9 @@ route.get("/get/catalog", TeacherObject, (req: TeacherReq, res) => {
   }
 });
 
-route.delete("/delete-question/:id", TeacherObject, (req, res) => {
+route.delete("/delete-question/:id", TeacherObject, async (req, res) => {
   try {
-    const data = QuestionRepo.delete(req.params.id);
+    const data = await QuestionRepo.delete(req.params.id);
     return res.json({ data });
   } catch (e) {
     return res.status(500).json({
@@ -45,13 +46,20 @@ route.delete("/delete-question/:id", TeacherObject, (req, res) => {
     });
   }
 });
-route.post("/post-question", TeacherObject, (req, res) => {
+route.post("/post-question", TeacherObject, async (req: TeacherReq, res) => {
   try {
-    const { q, testCase } = req.body;
-    const data = QuestionRepo.save(
+    const { q, testCase, Cid } = req.body;
+    const cdata = await CatalogRepo.findOne({ where: { id: Cid } });
+    if (!cdata)
+      return res.status(401).json({
+        message: "category not found",
+      });
+    const data = await QuestionRepo.save(
       QuestionRepo.create({
         q,
         testCase,
+        createBy: req.teacherObject,
+        catalog: [cdata],
       })
     );
     return res.json({ data });
@@ -61,10 +69,10 @@ route.post("/post-question", TeacherObject, (req, res) => {
     });
   }
 });
-route.put("/update-question/:id", TeacherObject, (req, res) => {
+route.put("/update-question/:id", TeacherObject, async (req, res) => {
   try {
     const { q, testCase } = req.body;
-    const data = QuestionRepo.update(req.params.id, {
+    const data = await QuestionRepo.update(req.params.id, {
       q,
       testCase,
     });
@@ -76,9 +84,9 @@ route.put("/update-question/:id", TeacherObject, (req, res) => {
   }
 });
 
-route.delete("/delete-catalog/:id", TeacherObject, (req, res) => {
+route.delete("/delete-catalog/:id", TeacherObject, async (req, res) => {
   try {
-    const data = CatalogRepo.delete(req.params.id);
+    const data = await CatalogRepo.delete(req.params.id);
     return res.json({ data });
   } catch (e) {
     return res.status(500).json({
@@ -86,10 +94,10 @@ route.delete("/delete-catalog/:id", TeacherObject, (req, res) => {
     });
   }
 });
-route.post("/post-catalog", TeacherObject, (req, res) => {
+route.post("/post-catalog", TeacherObject, async (req, res) => {
   try {
     const { name } = req.body;
-    const data = CatalogRepo.save(
+    const data = await CatalogRepo.save(
       CatalogRepo.create({
         name,
       })

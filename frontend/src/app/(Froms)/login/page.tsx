@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { login } from "@/reducers/slices/user.reducer"
 import { useRouter } from 'next/navigation';
+import { setItem } from '@/lib/storage';
 const Page = () => {
     const theme = useTheme();
     const [showPassword, setShowPassword] = React.useState(false);
@@ -69,7 +70,8 @@ const Page = () => {
                                 Login({ ...fData, email: fData.email + "@raisoni.net", }).then((data) => {
                                     console.log(data);
                                     toast.success(data.data.message);
-                                    dispatch(login(data.data.data))
+                                    setItem("token", data.data.data.token);
+                                    dispatch(login({ ...data.data.data, token: undefined }))
                                     router.push(`/dash-board/${data.data.data.role}`)
                                 }, (e: AxiosError | any) => {
                                     if (e.response?.data)

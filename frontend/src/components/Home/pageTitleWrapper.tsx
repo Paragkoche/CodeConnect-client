@@ -1,3 +1,4 @@
+"use client"
 import { FC, ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Container, styled } from '@mui/material';

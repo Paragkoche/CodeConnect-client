@@ -45,9 +45,14 @@ route.get(
             id: req.teacherObject.id,
           },
         },
-        relations: ["createBy"],
+        relations: ["createBy", "solve", "catalog"],
       });
       const cat = await CatalogRepo.find();
+      console.log({
+        count: solve.length,
+        q: solve,
+        cat,
+      });
 
       return res.json({
         data: {

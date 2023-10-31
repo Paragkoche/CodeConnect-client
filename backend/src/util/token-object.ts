@@ -30,6 +30,8 @@ export const TeacherObject = async (
       return rep.status(401).json({
         message: "token not valid",
       });
+    console.log(verify);
+
     if (verify.role != "Teacher")
       return rep.status(401).json({
         message: "token not Teacher token",
@@ -37,7 +39,9 @@ export const TeacherObject = async (
     const data = await UserRepo.findOneBy({
       id: verify.id,
     });
-    if (!data || data.role == verify.role)
+    console.log(data);
+
+    if (!data || data.role !== verify.role)
       return rep.status(401).json({
         message: "token not Teacher token",
       });
