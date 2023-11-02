@@ -1,4 +1,4 @@
-import { AnswerRepo } from "@/lib/repos";
+import { AnswerRepo, QuestionRepo } from "@/lib/repos";
 import { StudentObject, StudentReq } from "@/util/token-object";
 import { Router } from "express";
 
@@ -6,7 +6,31 @@ const route = Router();
 /**
  * todo (update,crate,delete) Answer
  */
-
+route.get("/get/questions", StudentObject, async (req: StudentReq, res) => {
+  try {
+    const data = await QuestionRepo.find({
+      relations: ["catalog"],
+    });
+    return res.json({ data });
+  } catch (e) {
+    return res.status(500).json({
+      message: e.toString(),
+    });
+  }
+});
+route.get("/get/questions/:id", StudentObject, async (req: StudentReq, res) => {
+  try {
+    const data = await QuestionRepo.find({
+      where: { id: req.params.id },
+      relations: ["catalog"],
+    });
+    return res.json({ data });
+  } catch (e) {
+    return res.status(500).json({
+      message: e.toString(),
+    });
+  }
+});
 route.get("/get/:id", StudentObject, async (req, res) => {
   try {
     const data = await AnswerRepo.findOne({
@@ -34,12 +58,14 @@ route.post("/submit-answer", StudentObject, async (req: StudentReq, res) => {
       AnswerRepo.create({
         ans,
         states,
-        q,
-        AnsBy: req.StudentObject,
+        q: (await QuestionRepo.findOne({ where: { id: q } })) || q,
+        AnsBy: [req.StudentObject],
       })
     );
     return res.json({ data });
   } catch (e) {
+    console.log(e);
+
     return res.status(500).json({
       message: e.toString(),
     });
@@ -74,4 +100,5 @@ route.delete(
     }
   }
 );
+
 export default route;

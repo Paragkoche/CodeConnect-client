@@ -1,5 +1,12 @@
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  BeforeInsert,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { createPassword } from "@/util/password";
+import { Answer } from "./QnA";
 @Entity()
 export class User {
   @PrimaryGeneratedColumn("uuid")
@@ -16,7 +23,8 @@ export class User {
   email: string;
   @Column()
   role: "Teacher" | "Student";
-
+  @OneToMany(() => Answer, (ans) => ans.AnsBy)
+  so: Answer[];
   @BeforeInsert()
   async g(password: string) {
     return await createPassword(this, password);

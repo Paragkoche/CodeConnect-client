@@ -8,22 +8,28 @@ import {
   Card,
   Box,
   Divider,
-  TableContainer,
   Table,
   TableHead,
-  TableCell,
   TableRow,
+  TableCell,
+  TableContainer,
   TableBody,
+  Button,
+  Tooltip,
+  IconButton,
 } from "@mui/material";
+import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
 import { alpha, styled, useTheme } from "@mui/material/styles";
 import PageTitleWrapper from "@/components/Home/pageTitleWrapper";
 import { useAppSelector } from "@/reducers/hook";
 import React from "react";
 import { useRouter } from "next/navigation";
-import { get_questions_api, teacher_dashboard_api } from "@/api";
+import { get_questions_s_api, delete_question_api } from "@/api";
 // import { Chart } from "@/mui/components/Chart";
 import Chart from "react-apexcharts";
-
+import AddTwoToneIcon from "@mui/icons-material/AddTwoTone";
+import { toast } from "react-toastify";
+import Link from "next/link";
 const ListItemAvatarWrapper = styled(ListItemAvatar)(
   ({ theme }) => `
     min-width: 0;
@@ -56,25 +62,31 @@ function PageHeader() {
   const [data, setData] = React.useState<any>();
 
   React.useEffect(() => {
-    get_questions_api().then((data) => {
-      let s: any[] = [];
-      data.data.data.map((v: any) => {
-        s.push(...v.solve);
-      });
-      setData(s);
+    get_questions_s_api().then((data) => {
+      setData(data.data.data);
     });
   }, []);
   if (user.role !== "") {
-    if (user.role == "Teacher") {
-      console.log("YOUR Teacher conform");
+    if (user.role == "Student") {
+      console.log("YOUR Student conform");
     } else {
-      route.push("/dash-board/Student");
+      route.push("/");
     }
   }
   console.log(data);
 
   return (
     <>
+      <PageTitleWrapper>
+        <Grid container justifyContent="space-between" alignItems="center">
+          <Grid item>
+            <Typography variant="h3" component="h3" gutterBottom>
+              Questions
+            </Typography>
+          </Grid>
+          <Grid item></Grid>
+        </Grid>
+      </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid
           container
@@ -89,18 +101,22 @@ function PageHeader() {
                 <Table>
                   <TableHead>
                     <TableRow>
-                      <TableCell>Ans</TableCell>
-                      <TableCell>Id</TableCell>
-                      <TableCell>Status</TableCell>
+                      <TableCell>Questions</TableCell>
+                      <TableCell>test case</TableCell>
+                      <TableCell>Category</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {data &&
                       data.map((v: any) => (
                         <TableRow>
-                          <TableCell>{v.ans}</TableCell>
-                          <TableCell>{v.id}</TableCell>
-                          <TableCell>{v.states}</TableCell>
+                          <TableCell>
+                            <Link href={`/dash-board/Student/question/${v.id}`}>
+                              {v.q}
+                            </Link>
+                          </TableCell>
+                          <TableCell>{v.testCase}</TableCell>
+                          <TableCell>{v.catalog[0]?.name || ""}</TableCell>
                         </TableRow>
                       ))}
                   </TableBody>

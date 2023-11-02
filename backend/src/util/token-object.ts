@@ -64,7 +64,7 @@ export const StudentObject = async (
       return rep.status(401).json({
         message: "UnAuthorization",
       });
-    const token: any = key.split("Bearer").at(-1);
+    const token: any = key.split("Bearer ").at(-1);
     const verify: { id: string; role: string } = verify_token(token);
     if (!verify)
       return rep.status(401).json({
@@ -77,13 +77,15 @@ export const StudentObject = async (
     const data = await UserRepo.findOneBy({
       id: verify.id,
     });
-    if (!data || data.role == verify.role)
+    if (!data || data.role != verify.role)
       return rep.status(401).json({
         message: "token not Student token",
       });
     req.StudentObject = data;
     return next();
   } catch (e) {
+    console.log(e);
+
     return rep.status(500).json({
       message: e.toString(),
     });

@@ -41,6 +41,29 @@ const submit_answer = `${student_url}/submit-answer`;
 const update_answer = `${student_url}/update-answer`;
 const delete_answer = `${student_url}/delete-answer`;
 const get_answer = `${student_url}/get`;
+const get_questions_s = `${student_url}/get/questions`;
+export const get_questions_s_api = async () =>
+  axios.get(get_questions_s, {
+    headers: {
+      Authorization: `Bearer ${await getItem("token")}`,
+    },
+  });
+export const get_questions_s_id_api = async (id: string) =>
+  axios.get(get_questions_s + "/" + id, {
+    headers: {
+      Authorization: `Bearer ${await getItem("token")}`,
+    },
+  });
+export const submit_answer_api = async (data: {
+  ans: string;
+  states: string;
+  q: string | string[];
+}) =>
+  axios.post(submit_answer, data, {
+    headers: {
+      Authorization: `Bearer ${await getItem("token")}`,
+    },
+  });
 
 // =========================================================
 // ======================Teacher===================================
@@ -94,3 +117,26 @@ export const get_catalog_api = async () =>
   });
 
 // ====================================================
+
+export const compile = (code: string, lag: string, input: string) => {
+  const formData = {
+    language_id: 63,
+    // encode source code in base64
+    source_code: btoa(code),
+    stdin: btoa(input),
+  };
+  const options = {
+    method: "POST",
+    url: "https://judge0-ce.p.rapidapi.com/submissions",
+    params: { base64_encoded: "true", fields: "*" },
+    headers: {
+      "content-type": "application/json",
+      "Content-Type": "application/json",
+      "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
+      "X-RapidAPI-Key": "699fc58353msh5a6c3e4f14e91f9p129e98jsnec1f56e4da5d",
+    },
+    data: formData,
+  };
+
+  return axios.request(options);
+};

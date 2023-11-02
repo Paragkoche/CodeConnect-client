@@ -45,6 +45,7 @@ export class Answer {
   @ManyToOne(() => Question, (q) => q.solve)
   @JoinColumn()
   q: Question;
-  @OneToOne(() => User)
-  AnsBy: User;
+  @ManyToMany(() => User, (s) => s.so)
+  @JoinTable()
+  AnsBy: User[];
 }
