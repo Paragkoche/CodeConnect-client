@@ -58,7 +58,7 @@ route.post("/post-question", TeacherObject, async (req: TeacherReq, res) => {
       QuestionRepo.create({
         q,
         testCase,
-        createBy: req.teacherObject,
+        createBy: [req.teacherObject],
         catalog: [cdata],
       })
     );

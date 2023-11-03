@@ -6,7 +6,6 @@ import {
   ManyToMany,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { User } from "./User";
@@ -26,9 +25,9 @@ export class Question {
   @OneToMany(() => Answer, (ans) => ans.q)
   solve: Answer[];
 
-  @OneToOne(() => User)
-  @JoinColumn()
-  createBy: User;
+  @ManyToMany(() => User)
+  @JoinTable()
+  createBy: User[];
   @ManyToMany(() => Catalog)
   @JoinTable()
   catalog: Catalog[];
