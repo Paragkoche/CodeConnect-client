@@ -40,7 +40,10 @@ export class Answer {
   ans: string;
   @Column()
   states: string;
-
+  @Column({
+    nullable: true,
+  })
+  comment: string;
   @ManyToOne(() => Question, (q) => q.solve)
   @JoinColumn()
   q: Question;

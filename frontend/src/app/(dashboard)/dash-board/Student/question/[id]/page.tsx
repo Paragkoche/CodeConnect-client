@@ -323,6 +323,8 @@ function PageHeader() {
                   q: para.id,
                 }).then((data) => {
                   console.log(data.data);
+                  toast.success("Answer submit");
+                  route.back();
                 });
               }}
               disabled={process}

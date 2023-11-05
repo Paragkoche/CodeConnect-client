@@ -1,4 +1,4 @@
-import { AnswerRepo, CatalogRepo, QuestionRepo } from "@/lib/repos";
+import { AnswerRepo, CatalogRepo, QuestionRepo, UserRepo } from "@/lib/repos";
 import {
   StudentObject,
   StudentReq,
@@ -68,5 +68,20 @@ route.get(
     }
   }
 );
-
+route.get("/leader-broad", async (req, res) => {
+  try {
+    const data = await UserRepo.createQueryBuilder("user")
+      .where("user.role = :role", { role: "Student" })
+      .andWhere("user.score > :score", { score: 0 })
+      .orderBy("user.score", "DESC")
+      .getMany();
+    return res.json({
+      data,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      message: e.toString(),
+    });
+  }
+});
 export default route;

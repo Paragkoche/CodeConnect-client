@@ -23,6 +23,8 @@ export class User {
   email: string;
   @Column()
   role: "Teacher" | "Student";
+  @Column({ default: 0 })
+  score: number;
   @OneToMany(() => Answer, (ans) => ans.AnsBy)
   so: Answer[];
   @BeforeInsert()

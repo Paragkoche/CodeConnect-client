@@ -20,7 +20,11 @@ import PageTitleWrapper from "@/components/Home/pageTitleWrapper";
 import { useAppSelector } from "@/reducers/hook";
 import React from "react";
 import { useRouter } from "next/navigation";
-import { get_questions_api, teacher_dashboard_api } from "@/api";
+import {
+  get_answer_api,
+  get_questions_api,
+  teacher_dashboard_api,
+} from "@/api";
 // import { Chart } from "@/mui/components/Chart";
 import Chart from "react-apexcharts";
 
@@ -56,17 +60,13 @@ function PageHeader() {
   const [data, setData] = React.useState<any>();
 
   React.useEffect(() => {
-    get_questions_api().then((data) => {
-      let s: any[] = [];
-      data.data.data.map((v: any) => {
-        s.push(...v.solve);
-      });
-      setData(s);
+    get_answer_api().then((data) => {
+      setData(data.data.data);
     });
   }, []);
   if (user.role !== "") {
-    if (user.role == "Teacher") {
-      console.log("YOUR Teacher conform");
+    if (user.role == "Student") {
+      console.log("YOUR Student conform");
     } else {
       route.push("/dash-board/Student");
     }
@@ -101,6 +101,7 @@ function PageHeader() {
                       <TableCell>Ans</TableCell>
                       <TableCell>Id</TableCell>
                       <TableCell>Status</TableCell>
+                      <TableCell>Comment</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -111,13 +112,11 @@ function PageHeader() {
                           sx={{
                             cursor: "pointer",
                           }}
-                          onClick={() => {
-                            route.push("/dash-board/Teacher/answers/" + v.id);
-                          }}
                         >
                           <TableCell>{v.ans}</TableCell>
                           <TableCell>{v.id}</TableCell>
                           <TableCell>{v.states}</TableCell>
+                          <TableCell>{v.comment}</TableCell>
                         </TableRow>
                       ))}
                   </TableBody>

@@ -47,6 +47,24 @@ route.get("/get/:id", StudentObject, async (req, res) => {
     });
   }
 });
+route.get("/answers", StudentObject, async (req: StudentReq, res) => {
+  try {
+    const data = await AnswerRepo.find({
+      where: {
+        AnsBy: {
+          id: req.StudentObject.id,
+        },
+      },
+    });
+    return res.json({
+      data,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      message: e.toString(),
+    });
+  }
+});
 route.post("/submit-answer", StudentObject, async (req: StudentReq, res) => {
   try {
     const { ans, states, q } = req.body;

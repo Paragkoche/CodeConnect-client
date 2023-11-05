@@ -14,7 +14,7 @@ import PageTitleWrapper from "@/components/Home/pageTitleWrapper";
 import { useAppSelector } from "@/reducers/hook";
 import React from "react";
 import { useRouter } from "next/navigation";
-import { teacher_dashboard_api } from "@/api";
+import { get_answer_api, teacher_dashboard_api } from "@/api";
 // import { Chart } from "@/mui/components/Chart";
 import Chart from "react-apexcharts";
 
@@ -48,7 +48,17 @@ function PageHeader() {
   const theme = useTheme();
   var hours = new Date().getHours();
   const route = useRouter();
-  //   const [data, setData] = React.useState<any>();
+  const [data, setData] = React.useState<any>();
+  React.useEffect(() => {
+    get_answer_api().then((data) => {
+      console.log(data.data.data.length);
+
+      const r = data.data.data.filter((v: any) => v.states == "Right-answer");
+      const w = data.data.data.filter((v: any) => v.states == "Wrong-answer");
+      const inR = data.data.data.filter((v: any) => v.states == "in-review");
+      setData([data.data.data.length, r.length, inR.length, w.length]);
+    });
+  }, []);
   //   const [cat, satCat] = React.useState(0);
   //   React.useEffect(() => {
   //     teacher_dashboard_api().then((data) => {
@@ -129,13 +139,23 @@ function PageHeader() {
                   >
                     <Divider absolute orientation="vertical" />
                   </Box>
-                  <Box py={4} flex={2}>
+                  <Box
+                    py={4}
+                    flex={2}
+                    alignItems={"center"}
+                    justifyContent={"center"}
+                  >
                     <Chart
                       height={1050}
                       options={{
-                        labels: ["Answer", "Right-answer"],
+                        labels: [
+                          "Answer",
+                          "Right-answer",
+                          "in-review",
+                          "Wrong-answer",
+                        ],
                       }}
-                      series={[0, 0]}
+                      series={data}
                       type="donut"
                     />
                   </Box>

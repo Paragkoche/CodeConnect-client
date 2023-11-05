@@ -41,7 +41,14 @@ const submit_answer = `${student_url}/submit-answer`;
 const update_answer = `${student_url}/update-answer`;
 const delete_answer = `${student_url}/delete-answer`;
 const get_answer = `${student_url}/get`;
+const get_answers = `${student_url}/answers`;
 const get_questions_s = `${student_url}/get/questions`;
+export const get_answer_api = async () =>
+  axios.get(get_answers, {
+    headers: {
+      Authorization: `Bearer ${await getItem("token")}`,
+    },
+  });
 export const get_questions_s_api = async () =>
   axios.get(get_questions_s, {
     headers: {
@@ -75,6 +82,27 @@ const post_question = `${teacher_url}/post-question`;
 const update_question = `${teacher_url}/update-question`;
 const delete_catalog = `${teacher_url}/delete-catalog`;
 const post_catalog = `${teacher_url}/post-catalog`;
+const post_review = `${teacher_url}/answer-review`;
+const get_one_ans = `${teacher_url}/answer`;
+export const get_one_ans_api = async (id: string) =>
+  axios.get(get_one_ans + "/" + id, {
+    headers: {
+      Authorization: `Bearer ${await getItem("token")}`,
+    },
+  });
+export const post_review_api = async (
+  id: string,
+  data: {
+    comment: string;
+    status: string;
+    score: string;
+  }
+) =>
+  axios.post(post_review + "/" + id, data, {
+    headers: {
+      Authorization: `Bearer ${await getItem("token")}`,
+    },
+  });
 export const get_questions_api = async () =>
   axios.get(get_questions, {
     headers: {

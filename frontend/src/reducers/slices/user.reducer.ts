@@ -6,6 +6,7 @@ interface userType {
   phone_number: string;
   email: string;
   role: string;
+  score: number;
 }
 const initialState: {
   value: userType;
@@ -17,6 +18,7 @@ const initialState: {
     phone_number: "",
     email: "",
     role: "",
+    score: 0,
   },
 };
 export const UserReducer = createSlice({

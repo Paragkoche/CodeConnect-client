@@ -4,7 +4,7 @@ export default new DataSource({
   type: "sqlite",
   database: "db.sqlite",
   logger: "debug",
-  logging: "all",
+  logging: true,
   synchronize: true,
   entities: [User, Question, Catalog, Answer],
 });
