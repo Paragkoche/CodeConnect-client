@@ -1,4 +1,4 @@
-import { AnswerRepo, QuestionRepo } from "@/lib/repos";
+import { AnswerRepo, QuestionRepo, UserRepo } from "@/lib/repos";
 import { StudentObject, StudentReq } from "@/util/token-object";
 import { Router } from "express";
 
@@ -72,11 +72,20 @@ route.post("/submit-answer", StudentObject, async (req: StudentReq, res) => {
       return res.status(403).json({
         message: "Input required Answers Status and question ID",
       });
+    const _qq = await QuestionRepo.findOne({
+      where: { id: q },
+      relations: ["catalog"],
+    });
+    const cc = _qq?.catalog.filter((v) => v.name == "practice").length;
+    if (cc != 0)
+      UserRepo.update(req.StudentObject.id, {
+        score: req.StudentObject.score + 10,
+      });
     const data = await AnswerRepo.save(
       AnswerRepo.create({
         ans,
         states,
-        q: (await QuestionRepo.findOne({ where: { id: q } })) || q,
+        q: _qq || q,
         AnsBy: [req.StudentObject],
       })
     );

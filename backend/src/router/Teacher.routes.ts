@@ -81,7 +81,7 @@ route.get("/get/questions", TeacherObject, async (req: TeacherReq, res) => {
           id: req.teacherObject.id,
         },
       },
-      relations: ["solve", "catalog"],
+      relations: ["solve","solve.AnsBy", "catalog"],
     });
     return res.json({ data });
   } catch (e) {

@@ -1,3 +1,4 @@
+"use client";
 import { getItem } from "@/lib/storage";
 import axios from "axios";
 const URL = `${process.env.NEXT_PUBLIC_ENV_BAKEND_URL}/api/v1`;
@@ -22,6 +23,7 @@ export const SignIn = (data: {
 const Home = `${URL}/Home`;
 const student_dashboard = `${Home}/student-dashboard`;
 const teacher_dashboard = `${Home}/teacher-dashboard`;
+const leader_bored = `${Home}/leader-broad`;
 export const student_dashboard_api = async () =>
   axios.get(student_dashboard, {
     headers: {
@@ -34,6 +36,7 @@ export const teacher_dashboard_api = async () =>
       Authorization: `Bearer ${await getItem("token")}`,
     },
   });
+export const leader_bored_api = () => axios.get(leader_bored);
 // ======================================================
 // =======================Student==============================
 const student_url = `${URL}/student`;
@@ -148,13 +151,13 @@ export const get_catalog_api = async () =>
 
 export const compile = (code: string, lag: string, input: string) => {
   const formData = {
-    language_id: 63,
+    language_id: lag,
     // encode source code in base64
     source_code: btoa(code),
     stdin: btoa(input),
   };
   const options = {
-    method: "POST",
+    Method: "POST",
     url: "https://judge0-ce.p.rapidapi.com/submissions",
     params: { base64_encoded: "true", fields: "*" },
     headers: {

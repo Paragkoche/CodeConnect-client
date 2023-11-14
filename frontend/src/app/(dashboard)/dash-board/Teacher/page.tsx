@@ -58,8 +58,10 @@ function PageHeader() {
         ans += v.solve.length;
       });
       data.data.data.q.map((v: any) => {
-        r_ans += v.solve.filter((v: any) => v.state == "right").length;
+        r_ans += v.solve.filter((v: any) => v.states == "Right-answer").length;
       });
+      console.log(r_ans);
+
       setData([data.data.data.q.length, ans, r_ans]);
       satCat(data.data.data.cat.length);
     });

@@ -71,12 +71,21 @@ route.get(
 route.get("/leader-broad", async (req, res) => {
   try {
     const data = await UserRepo.createQueryBuilder("user")
+
       .where("user.role = :role", { role: "Student" })
+      .leftJoinAndSelect("user.so", "answer")
       .andWhere("user.score > :score", { score: 0 })
       .orderBy("user.score", "DESC")
       .getMany();
+    const m_data = data.map((v) => {
+      return {
+        rank: v.score,
+        name: v.name,
+        question_solve: v.so.length,
+      };
+    });
     return res.json({
-      data,
+      data: m_data,
     });
   } catch (e) {
     return res.status(500).json({

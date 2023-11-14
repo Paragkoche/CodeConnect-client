@@ -1,3 +1,4 @@
+"use client";
 import localforage from "localforage";
 
 localforage.config({

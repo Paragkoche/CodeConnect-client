@@ -2,7 +2,7 @@ import {
   BeforeInsert,
   Column,
   Entity,
-  OneToMany,
+  ManyToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { createPassword } from "@/util/password";
@@ -25,7 +25,7 @@ export class User {
   role: "Teacher" | "Student";
   @Column({ default: 0 })
   score: number;
-  @OneToMany(() => Answer, (ans) => ans.AnsBy)
+  @ManyToMany(() => Answer, (ans) => ans.AnsBy)
   so: Answer[];
   @BeforeInsert()
   async g(password: string) {

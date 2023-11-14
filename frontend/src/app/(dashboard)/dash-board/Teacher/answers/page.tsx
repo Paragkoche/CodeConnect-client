@@ -99,7 +99,7 @@ function PageHeader() {
                   <TableHead>
                     <TableRow>
                       <TableCell>Ans</TableCell>
-                      <TableCell>Id</TableCell>
+                      <TableCell>Name</TableCell>
                       <TableCell>Status</TableCell>
                     </TableRow>
                   </TableHead>
@@ -116,7 +116,7 @@ function PageHeader() {
                           }}
                         >
                           <TableCell>{v.ans}</TableCell>
-                          <TableCell>{v.id}</TableCell>
+                          <TableCell>{v.AnsBy[0].name}</TableCell>
                           <TableCell>{v.states}</TableCell>
                         </TableRow>
                       ))}
