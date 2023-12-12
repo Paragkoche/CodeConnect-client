@@ -2,11 +2,14 @@ import {
   BeforeInsert,
   Column,
   Entity,
+  JoinColumn,
   ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { createPassword } from "@/util/password";
 import { Answer } from "./QnA";
+import { Redux } from "./redux";
 @Entity()
 export class User {
   @PrimaryGeneratedColumn("uuid")
@@ -27,6 +30,9 @@ export class User {
   score: number;
   @ManyToMany(() => Answer, (ans) => ans.AnsBy)
   so: Answer[];
+  @ManyToOne(() => Redux, (r) => r.user)
+  @JoinColumn()
+  redux: Redux;
   @BeforeInsert()
   async g(password: string) {
     return await createPassword(this, password);
