@@ -104,7 +104,7 @@ function PageHeader() {
                         <TableRow>
                           <TableCell>{v.q}</TableCell>
                           <TableCell>{v.testCase}</TableCell>
-                          <TableCell>{v.catalog[0].name}</TableCell>
+                          <TableCell>{v.catalog[0].name || ""}</TableCell>
                           <TableCell>{v.solve.length}</TableCell>
                           <TableCell>
                             <Tooltip title="Delete Question" arrow>
