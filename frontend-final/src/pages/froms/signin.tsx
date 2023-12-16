@@ -53,7 +53,7 @@ const Page = () => {
   return (
     <>
       <Helmet>
-        <title>SignIn | CodeConnect</title>
+        <title>Sign up | CodeConnect</title>
       </Helmet>
       <Box
         sx={{
@@ -91,7 +91,7 @@ const Page = () => {
           }}
         >
           <Card>
-            <CardHeader title="Sing-up" />
+            <CardHeader title="Sign-up" />
             <CardContent>
               <form
                 onSubmit={(e) => {

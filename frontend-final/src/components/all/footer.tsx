@@ -49,7 +49,7 @@ const Footer = () => {
             <p>Your assignment text here.</p>
           </div>
         </div>
-        <p>&copy; 2023 Your Website Name</p>
+        <p>&copy; 2023 CodeConnecter</p>
       </div>
     </footer>
   );

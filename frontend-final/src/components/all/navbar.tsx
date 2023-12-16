@@ -11,7 +11,7 @@ const Navbar = () => {
       <ul className="flex space-x-4 text-white">
         <li>
           <Link to="/leaderbord" className="hover:text-gray-300 h-2 w-2">
-            Leader bard
+            Leaderboard
           </Link>
         </li>
         <li>
